@@ -5,15 +5,18 @@ import (
 	// "main/utils"
 	"main/controllers"
 	"main/di"
+	
 )
 
+
+
 func main() {
-	 di.InitilizeServer()
+	di.InitilizeServer()
 
 	//
 
 	controller.UserApi(di.Router)
-	controller.TestApi(di.Router)
+	// controller.TestApi(di.Router)
 
 	//
 	di.StartServer()
@@ -26,7 +29,6 @@ func main() {
 //     fmt.Println("Password:", password)
 //     fmt.Println("Hash:    ", hash)
 //     fmt.Println("Length:    ", len(hash))
-
 
 //     match := utils.CheckPasswordHash(password, hash)
 //     fmt.Println("Match:   ", match)

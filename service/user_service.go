@@ -5,7 +5,7 @@ import (
 	"main/di"
 	"main/models"
 	"main/utils"
-	"strings"
+	// "strings"
 	"time"
 
 	// "strings"
@@ -14,9 +14,19 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-// type encrypt struct {
-// 	hasher utils.Hasher
-// }
+type userService struct {
+	
+}
+
+type UserService interface {
+	UpdateUserName(c *gin.Context)
+}
+
+func CreateUserService(jwtService JWTService) UserService {
+	return &userService{
+		// jwtService: jwtService,
+	}
+}
 
 func Register(c *gin.Context) {
 	var register models.Register
@@ -95,13 +105,13 @@ func Login(c *gin.Context) {
 	utils.Success(c, cust)
 }
 
-func UpdateUserName(c *gin.Context) {
+func(userService *userService) UpdateUserName(c *gin.Context) {
 
-	val, err1 := VerifyUser(strings.Split(c.GetHeader("Authorization"), " ")[1])
-	if err1 != nil {
-		utils.Failure(c, err1)
-		return
-	}
+	// val, err1 := VerifyUser(strings.Split(c.GetHeader("Authorization"), " ")[1])
+	// if err1 != nil {
+	// 	utils.Failure(c, err1)
+	// 	return
+	// }
 
 	var user models.UpdateUserNameDTO
 
@@ -114,7 +124,7 @@ func UpdateUserName(c *gin.Context) {
 	// fmt.Println(user.First_name)
 	// fmt.Println(val)
 
-	di.Db.Exec("call updateUser(?, ?)", user.First_name, val)
+	di.Db.Exec("call updateUser(?, ?)", user.First_name, 16)
 
 	utils.Success(c, "Succedd")
 
