@@ -1,22 +1,17 @@
 package service
 
 import (
-	"fmt"
+	
 	"main/di"
 	"main/models"
 	"main/utils"
 	"strings"
 	"time"
 
-	// "strings"
-	// "time"
+	
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 )
-
-// type encrypt struct {
-// 	hasher utils.Hasher
-// }
 
 func Register(c *gin.Context) {
 	var register models.Register
@@ -60,24 +55,18 @@ func Login(c *gin.Context) {
 	}
 
 	cust := models.Customer{}
-	// start1 := time.Now()
+	
 	if di.Db.Where("email = ?", login.Email).First(&cust).Error != nil {
 		utils.Failure(c, "No user found!")
 		return
 	}
-	// elapsed1 := time.Since(start1)
-	// fmt.Println("DB: "+shortDur(elapsed1))
+	
 
-	// pass := encrypt{}
-	// pass.hasher.CheckPasswordHash(login.Password, cust.Password)
-
-	// start2 := time.Now()
+	
 	if !utils.CheckPasswordHash(login.Password, cust.Password) {
 		utils.Failure(c, "Incorrect Credentials")
 		return
 	}
-	// elapsed2 := time.Since(start2)
-	// fmt.Println("Hash: "+shortDur(elapsed2))
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"userId":        cust.Customer_id,
@@ -111,8 +100,6 @@ func UpdateUserName(c *gin.Context) {
 		return
 	}
 
-	// fmt.Println(user.First_name)
-	// fmt.Println(val)
 
 	di.Db.Exec("call updateUser(?, ?)", user.First_name, val)
 
@@ -120,27 +107,7 @@ func UpdateUserName(c *gin.Context) {
 
 }
 
-func VerifyUser(tokenString string) (string, interface{}) {
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		// Don't forget to validate the alg is what you expect:
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-		}
 
-		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
-		return []byte(("your-256-bit-secret")), nil
-	})
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		// fmt.Println(claims["userId"])
-
-		return fmt.Sprintf("%v", claims["userId"]), nil
-	} else {
-		// fmt.Println(err)
-		return "", err
-
-	}
-
-}
 
 func GetUsers(c *gin.Context) {
 	slice := models.StaticUsers()
@@ -156,8 +123,6 @@ func GetUsers(c *gin.Context) {
 		utils.Failure(c, "No Data Found")
 		return
 	}
-
-	// fmt.Println(slice)
 	utils.Success(c, slice)
 
 }
@@ -180,13 +145,3 @@ func GetAll(c *gin.Context) {
 	utils.Success(c, slice)
 }
 
-// func shortDur(d time.Duration) string {
-//     s := d.String()
-//     if strings.HasSuffix(s, "m0s") {
-//         s = s[:len(s)-2]
-//     }
-//     if strings.HasSuffix(s, "h0m") {
-//         s = s[:len(s)-2]
-//     }
-//     return s
-// }
