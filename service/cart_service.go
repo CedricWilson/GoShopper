@@ -1,7 +1,7 @@
 package service
 
 import (
-	// "fmt"
+
 	"main/di"
 	"main/models"
 	"main/utils"
@@ -51,6 +51,8 @@ func AddToCart(c *gin.Context) {
 		return
 	}
 
+	
+
 	var addProduct models.Cart
 
 	if err := c.ShouldBind(&addProduct); err != nil {
@@ -58,6 +60,8 @@ func AddToCart(c *gin.Context) {
 		return
 	}
 	addProduct.Customer_id = userId
+
+	
 
 	res := di.Db.Create(&addProduct)
 

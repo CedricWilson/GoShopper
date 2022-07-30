@@ -1,14 +1,13 @@
 package service
 
 import (
-	
+	"fmt"
 	"main/di"
 	"main/models"
 	"main/utils"
 	"strings"
 	"time"
 
-	
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 )
@@ -33,7 +32,7 @@ func Register(c *gin.Context) {
 		City:       register.City,
 		Phone:      register.Phone,
 		Address:    register.Address,
-		Birth_date: time.Now(),
+		Birth_date: time.Now().GoString(),
 		Points:     0,
 	}
 	res := di.Db.Create(&cust)
@@ -55,14 +54,12 @@ func Login(c *gin.Context) {
 	}
 
 	cust := models.Customer{}
-	
+
 	if di.Db.Where("email = ?", login.Email).First(&cust).Error != nil {
 		utils.Failure(c, "No user found!")
 		return
 	}
-	
 
-	
 	if !utils.CheckPasswordHash(login.Password, cust.Password) {
 		utils.Failure(c, "Incorrect Credentials")
 		return
@@ -100,14 +97,19 @@ func UpdateUserName(c *gin.Context) {
 		return
 	}
 
+	// di.Db.Exec("call updateUser(?, ?)", user.First_name, val)
 
-	di.Db.Exec("call updateUser(?, ?)", user.First_name, val)
+	res := di.Db.Model(&models.Customer{}).Where("customer_id = ?", val).Update("first_name", user.First_name)
 
-	utils.Success(c, "Succedd")
+	if res.Error != nil {
+		fmt.Println(res.Error)
+		utils.Failure(c, res.Error)
+		return
+	}
+
+	utils.Success(c, "Updated user!")
 
 }
-
-
 
 func GetUsers(c *gin.Context) {
 	slice := models.StaticUsers()
@@ -144,4 +146,3 @@ func GetAll(c *gin.Context) {
 
 	utils.Success(c, slice)
 }
-
