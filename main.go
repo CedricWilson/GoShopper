@@ -1,19 +1,36 @@
 package main
 
 import (
-	// "fmt"
-	// "main/utils"
+	
 	controller "main/controllers"
 	"main/di"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
+
+
 
 func main() {
 	router := gin.Default()
 	di.InitDB()
 
+	di.InitRedis()
+	
+
 	//
+	router.LoadHTMLFiles("static/index.tmpl.html")
+	
+	router.Static("/css", "static/css")
+	router.Static("/images", "static/images")
+
+
+	
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.tmpl.html", gin.H{
+			"title": "GoShopper",
+		})
+	})
 
 	controller.UserApi(router)
 
@@ -24,14 +41,3 @@ func main() {
 	router.Run(":8080")
 }
 
-// func main(){
-// 	password := "Abcd@1234"
-//     hash, _ := utils.HashPassword(password) // ignore error for the sake of simplicity
-
-//     fmt.Println("Password:", password)
-//     fmt.Println("Hash:    ", hash)
-//     fmt.Println("Length:    ", len(hash))
-
-//     match := utils.CheckPasswordHash(password, hash)
-//     fmt.Println("Match:   ", match)
-// }

@@ -1,21 +1,20 @@
 package service
 
 import (
-	// "fmt"
+	
+	
 	"main/di"
 	"main/models"
 	"main/utils"
-	"strings"
+	// "strings"
 
 	"github.com/gin-gonic/gin"
 )
 
 func FetchCart(c *gin.Context) {
-	userId, err1 := VerifyUser(strings.Split(c.GetHeader("Authorization"), " ")[1])
-	if err1 != nil {
-		utils.Failure(c, err1)
-		return
-	}
+	
+	userId := c.GetInt("userId")
+	
 
 	// slice := []models.Cart{}
 
@@ -45,11 +44,8 @@ func FetchCart(c *gin.Context) {
 }
 func AddToCart(c *gin.Context) {
 
-	userId, err1 := VerifyUser(strings.Split(c.GetHeader("Authorization"), " ")[1])
-	if err1 != nil {
-		utils.Failure(c, err1)
-		return
-	}
+	userId := c.GetInt("userId")
+
 
 	var addProduct models.Cart
 

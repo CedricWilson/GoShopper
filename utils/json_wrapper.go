@@ -14,6 +14,8 @@ func Success(c *gin.Context, val any) {
 	}
 
 	c.JSON(http.StatusOK, response)
+	c.Abort()
+
 }
 
 func Failure(c *gin.Context, val any) {
@@ -22,4 +24,5 @@ func Failure(c *gin.Context, val any) {
 		"result": val,
 	}
 	c.JSON(http.StatusInternalServerError, response)
+	c.Abort()
 }
