@@ -2,9 +2,9 @@ package service
 
 import (
 	
-	"main/di"
-	"main/models"
-	"main/utils"
+	"goshopper/di"
+	"goshopper/models"
+	"goshopper/utils"
 	"strings"
 	"time"
 
@@ -14,6 +14,7 @@ import (
 )
 
 func Register(c *gin.Context) {
+	
 	var register models.Register
 
 	err := c.ShouldBind(&register)

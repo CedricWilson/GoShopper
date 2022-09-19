@@ -2,11 +2,14 @@ package di
 
 import (
 	"fmt"
-	"main/models"
+	"goshopper/models"
 	"os"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"github.com/go-redis/redis/v8"
+	
+    "github.com/rs/zerolog/log"
+
 
 )
 
@@ -20,7 +23,8 @@ func InitDB() {
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		fmt.Println(err)
+		log.Error().Msg(err.Error())
+		
 		os.Exit(1)
 	} else {
 		fmt.Println("Database connected successfully!")

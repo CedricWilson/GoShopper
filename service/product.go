@@ -2,9 +2,9 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	"main/di"
-	"main/models"
-	"main/utils"
+	"goshopper/di"
+	"goshopper/models"
+	"goshopper/utils"
 )
 
 func ListProducts(c *gin.Context) {

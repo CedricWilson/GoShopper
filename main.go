@@ -2,8 +2,8 @@ package main
 
 import (
 	
-	controller "main/controllers"
-	"main/di"
+	 "goshopper/controllers"
+	"goshopper/di"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

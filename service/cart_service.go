@@ -3,9 +3,9 @@ package service
 import (
 	
 	
-	"main/di"
-	"main/models"
-	"main/utils"
+	"goshopper/di"
+	"goshopper/models"
+	"goshopper/utils"
 	// "strings"
 
 	"github.com/gin-gonic/gin"

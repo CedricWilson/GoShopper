@@ -3,8 +3,8 @@ package controller
 import (
 	// "fmt"
 	// "fmt"
-	service "main/service"
-	"main/utils"
+	 "goshopper/service"
+	"goshopper/utils"
 	"strings"
 
 	"github.com/gin-gonic/gin"

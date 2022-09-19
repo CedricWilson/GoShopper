@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"main/service"
+	"goshopper/service"
 
 	"github.com/gin-gonic/gin"
 )
